@@ -1,4 +1,3 @@
-#include <Arduino.h>
 // include this instead of IRremote.h to avoid compilation errors
 // https://github.com/Arduino-IRremote/Arduino-IRremote/issues/805
 #include <IRremoteInt.h> 
