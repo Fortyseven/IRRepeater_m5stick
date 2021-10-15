@@ -1,6 +1,12 @@
-#include <IRremote.h>
+#include <Arduino.h>
+// include this instead of IRremote.h to avoid compilation errors
+// https://github.com/Arduino-IRremote/Arduino-IRremote/issues/805
+#include <IRremoteInt.h> 
 #include <M5StickC.h>
+
 #include "tb_display.h"
+
+#include <IRRepeater.h>
 
 int RECV_PIN = 26;
 
@@ -111,7 +117,12 @@ void stateRecording()
 /* --------------------------------------------------------------------- */
 void statePlayback()
 {
-    //
+    if (!has_packet)
+    {
+        switchState(WAIT);
+    }
+
+    playbackIR();
 }
 
 /* --------------------------------------------------------------------- */
