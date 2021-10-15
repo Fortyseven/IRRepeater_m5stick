@@ -23,7 +23,9 @@
  * Distributed as-is; no warranty is given.
  ******************************************************************************/
 
-// Enable or disable Waord Wrap
+#include <Arduino.h>
+
+// Enable or disable Word Wrap
 extern boolean tb_display_word_wrap;
 
 // =============================================================
