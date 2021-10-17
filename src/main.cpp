@@ -7,8 +7,9 @@
 
 #include "AppState.h"
 
-#include "states/StateRecording.h"
 #include "states/StateWait.h"
+#include "states/StateRecording.h"
+#include "states/StatePlayback.h"
 
 
 // IRData last_scan;
@@ -29,6 +30,7 @@ void setup()
 
     app_state->registerState(new StateWait(), STATE_WAIT);
     app_state->registerState(new StateRecording(), STATE_RECORDING);
+    app_state->registerState(new StatePlayback(), STATE_PLAYBACK);
 
     app_state->changeState(STATE_WAIT);
 }

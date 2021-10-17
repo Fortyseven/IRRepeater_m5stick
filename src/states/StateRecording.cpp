@@ -39,9 +39,9 @@ void StateRecording::loop(AppState *app_state)
             // memcpy(&last_scan, &IrReceiver.decodedIRData, sizeof(IRData));
 
             // has_packet = true;
-            app_state->changeState(STATE_WAIT);
+            // app_state->changeState(STATE_WAIT);
         }
         IrReceiver.resume();
-        app_state->changeState(STATE_WAIT);
+        app_state->changeState(STATE_PLAYBACK);
     }
 }
