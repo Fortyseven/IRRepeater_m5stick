@@ -22,6 +22,7 @@ AppState *app_state;
 void setup()
 {
     M5.begin();
+    M5.Lcd.setRotation(3);
 
     app_state = new AppState();
 
