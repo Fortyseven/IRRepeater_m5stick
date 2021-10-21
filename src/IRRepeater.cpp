@@ -3,7 +3,6 @@
 // #include <IRremoteInt.h>
 #include <IRRepeater.h>
 #include <M5StickC.h>
-#include "tb_display.h"
 
 #include "AppState.h"
 
@@ -24,8 +23,6 @@ void setup()
 {
     M5.begin();
 
-    tb_display_init(3);
-
     app_state = new AppState();
 
     app_state->registerState(new StateWait(), STATE_WAIT);
@@ -33,7 +30,6 @@ void setup()
     app_state->registerState(new StatePlayback(), STATE_PLAYBACK);
 
     app_state->changeState(STATE_WAIT);
-    // app_state->changeState(STATE_PLAYBACK);
 }
 
 /* --------------------------------------------------------------------- */
