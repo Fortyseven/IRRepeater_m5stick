@@ -1,15 +1,28 @@
 #include "IRRepeater.h"
 #include "IRremoteInt.h"
 #include <M5StickC.h>
-#include "tb_display.h"
 #include "AppState.h"
 
 #include "states/StatePlayback.h"
 
+/* -------------------------------- */
 void StatePlayback::onEnter(AppState *app_state, IState *from_state)
 {
-    tb_display_print_String("Hello from PLAY state.\n");
-    IrReceiver.begin(IR_RECV_PIN);
+    char msg[100];
+
+    if (last_scan.protocol == UNKNOWN)
+    {
+        sprintf(msg, "PLAYBACK RAW: %x", last_scan.decodedRawData);
+        setBanner(msg, DARKCYAN, CYAN, RED);
+    }
+    else
+    {
+        sprintf(msg, "PLAYBACK %s / %x", (char *)getProtocolString(last_scan.protocol), last_scan.command);
+        setBanner(msg, DARKCYAN, CYAN, BLACK);
+    }
+
+    M5.Lcd.setTextColor(CYAN);
+    IrSender.begin(9, false);
 }
 
 /* -------------------------------- */
@@ -20,34 +33,10 @@ void StatePlayback::loop(AppState *app_state)
     {
         app_state->changeState(STATE_WAIT);
     }
-
-    // if (IrReceiver.decode())
-    // {
-    //     if (IrReceiver.decodedIRData.decodedRawData != 0)
-    //     {
-    //         tb_display_clear();
-
-    //         tb_display_print_String("\nPRO: ");
-    //         tb_display_print_String((char *)getProtocolString(IrReceiver.decodedIRData.protocol));
-
-    //         tb_display_print_String("\nCMD: ");
-    //         tb_display_print_String(toString(IrReceiver.decodedIRData.command));
-
-    //         tb_display_print_String("\nADR: ");
-    //         tb_display_print_String(toString(IrReceiver.decodedIRData.address));
-
-    //         tb_display_print_String("\nFLG: ");
-    //         tb_display_print_String(toString(IrReceiver.decodedIRData.flags));
-
-    //         tb_display_print_String("\nRAW: ");
-    //         tb_display_print_String(toString(IrReceiver.decodedIRData.decodedRawData));
-
-    //         // memcpy(&last_scan, &IrReceiver.decodedIRData, sizeof(IRData));
-
-    //         // has_packet = true;
-    //         app_state->changeState(STATE_WAIT);
-    //     }
-    //     IrReceiver.resume();
-    //     app_state->changeState(STATE_WAIT);
-    // }
+    else if (has_scan)
+    {
+        M5.Lcd.print('.');
+        IrSender.sendRaw(last_raw, 100, 38);
+        delay(500);
+    }
 }
